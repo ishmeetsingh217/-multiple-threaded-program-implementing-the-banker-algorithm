@@ -78,7 +78,7 @@ Authors and acknowledgment
 
 Contributors
 -ISHMEET SINGH
--KIISHI DEBAYO SANSUI 
+-KIISHI 
 
 
 LICENSE
