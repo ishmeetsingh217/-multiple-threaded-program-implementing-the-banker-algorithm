@@ -10,7 +10,71 @@
 int maxRes[5][4]; //Max available resources data from file
 // int allocateRes[5][4]={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,2,3,1}}; //Allocated resources in each Customers
 int allocateRes[5][4];
+int nCustomers = 0;
 
+
+int readFile(char *fileName) //Read data from file...
+{
+	// Read file content from file
+	FILE *in = fopen(fileName, "r");
+	if (!in)
+	{
+		printf("Child A: Error in opening input file...exiting with error code -1\n");
+		return -1;
+	}
+	struct stat st;
+	fstat(fileno(in), &st);
+	// malloc filecontent
+	char *fileContent = (char *)malloc(((int)st.st_size + 1) * sizeof(char));
+	fileContent[0] = '\0';
+	// Get file content line by line
+	while (!feof(in))
+	{
+		char line[100];
+		if (fgets(line, 100, in) != NULL)
+		{
+			strncat(fileContent, line, strlen(line));
+		}
+	}
+	fclose(in);
+	char *mLine = NULL;
+	char *fileCopy = (char *)malloc((strlen(fileContent) + 1) * sizeof(char));
+	strcpy(fileCopy, fileContent);
+	mLine = strtok(fileCopy, "\r\n");
+	while (mLine != NULL)
+	{
+		nCustomers++;
+		mLine = strtok(NULL, "\r\n");
+	}
+	char *lines[nCustomers];
+	mLine = NULL;
+	int i = 0;
+	// splite the filecontent as line
+	mLine = strtok(fileContent, "\r\n");
+	while (mLine != NULL)
+	{
+		lines[i] = malloc(sizeof(mLine) * sizeof(char));
+		// copy the line content to lines array
+		strcpy(lines[i], mLine);
+		i++;
+		mLine = strtok(NULL, "\r\n");
+	}
+	int j = 0;
+	// add max resource value from file
+	for (int k = 0; k < nCustomers; k++)
+	{
+		char *token = NULL;
+		j = 0;
+		token = strtok(lines[k], ",");
+		while (token != NULL)
+		{
+			maxRes[k][j] = atoi(token);
+			j++;
+			token = strtok(NULL, ",");
+		}
+	}
+	return j;
+}
 
 // function that implement request command		
 void checkRequest(int eachValue[], int availRes[])
