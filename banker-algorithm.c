@@ -197,3 +197,51 @@ void *threadRun() //implement this function in a suitable way
 	}
 	return 0;
 }
+
+// Get safe sequences
+void safe_sequence(int need[][nRes])
+{
+	int safe_flag = 0;
+	int i = 0,temp=0;
+	while (safe_flag < nCustomers)
+	{
+		int continue_flag = 0;
+		// Check continue with existed elements
+		for (int k = 0; k < nCustomers; k++)
+		{
+			if ((safe[k] == i)&&(safe[k] > 0))
+			{
+				continue_flag = 1;
+			}
+		}
+		// If i is available, push i to safe array
+		if (continue_flag != 1)
+		{
+			if (is_available(i, need) == 1)
+			{
+				push(i);
+				safe_flag = safe_flag + 1;
+			}
+			else
+			{
+				temp = i;
+			}
+			i++;
+			if (i == nCustomers)
+			{
+				i = temp;
+			}
+		}
+		
+	}
+	// if a safe-sequence is found, display it
+	if ((safe[nCustomers] != 1) || (safe[nCustomers] != -1))
+	{
+		printf("Safe sequence is : <");
+		for (int i = 0; i < nCustomers; i++)
+		{
+			printf(" %d ", safe[i]);
+		}
+		printf(">");
+	}
+}
