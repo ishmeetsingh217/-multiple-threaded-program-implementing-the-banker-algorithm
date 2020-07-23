@@ -257,4 +257,29 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "usage: ./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>\n");
 		exit(1);
 	}
+	printf("Currentrly Available resources : ");
+	// Print available resources
+	for (int i = 0; i < argc; ++i)
+	{
+		if (i == 0)
+		{
+			continue;
+		}
+		availRes[i] = atoi(argv[i]);
+		printf("%d ", availRes[i]);
+	}
+	printf("\n");
+	printFile(filename);
+	int com_num = 0;
+	char command[3] = {0};
+	int command_flag = 1;
+	pthread_t tid;
+	int need[nCustomers][nRes];
+	for (int i = 0; i < nCustomers; i++)
+	{
+		for (int j = 0; j < nRes; j++)
+		{
+			need[i][j] = maxRes[i][j] - allocateRes[i][j];
+		}
+	}
 }
