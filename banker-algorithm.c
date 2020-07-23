@@ -245,3 +245,16 @@ void safe_sequence(int need[][nRes])
 		printf(">");
 	}
 }
+
+int main(int argc, char *argv[])
+{
+	char *filename = "sample4_in.txt";
+	nRes = readFile(filename);
+	printf("Number of Customers : %d\n", nCustomers);
+	// Check argc
+	if (argc < nRes + 1)
+	{
+		fprintf(stderr, "usage: ./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>\n");
+		exit(1);
+	}
+}
