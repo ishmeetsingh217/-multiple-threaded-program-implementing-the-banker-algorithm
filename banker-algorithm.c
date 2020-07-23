@@ -6,12 +6,29 @@
 #include <sys/stat.h>
 #include <time.h>
 
+void checkRequest(int eachValue[], int availRes[]); //function to Check request
+void checkRelease(int eachValue[], int availRes[]); //function to Check release
+int safe[10], top;
 // Define static array
 int maxRes[5][4]; //Max available resources data from file
 // int allocateRes[5][4]={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,2,3,1}}; //Allocated resources in each Customers
 int allocateRes[5][4];
+int availRes[5];
+int eachValue[5];
+void outValuse();									//Output Current state of the arrays
+void runSafe(int customer_id);						//Rnu all threads with safe sequence
 int nCustomers = 0;
 
+// Define static variables
+char type[4] = {0};
+
+int nRes = 0;
+int customer_id = 0;
+
+void *threadRun();				//the thread function, the code executed by each thread
+int readFile(char *fileName);	//function to read the file content and build array of threads
+void printFile(char *filename); //function to print of file content
+void allThread();				//Run all thread with safe state
 
 int readFile(char *fileName) //Read data from file...
 {
@@ -131,4 +148,27 @@ void checkRelease(int eachValue[], int availRes[])
 	{
 		printf("Release is not satisfied\n");
 	}
+}
+
+void *threadRun() //implement this function in a suitable way
+{
+	// Run the function for each command keyword
+	if (strcmp(type, "RQ") == 0)
+	{
+		checkRequest(eachValue, availRes);
+	}
+	else if (strcmp(type, "RL") == 0)
+	{
+		checkRelease(eachValue, availRes);
+	}
+	else if (strcmp(type, "*") == 0)
+	{
+		outValuse();
+	}
+	else if (strcmp(type, "Run") == 0)
+	{
+		runSafe(customer_id);
+		customer_id++;
+	}
+	return 0;
 }
