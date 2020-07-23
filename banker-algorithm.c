@@ -93,6 +93,31 @@ int readFile(char *fileName) //Read data from file...
 	return j;
 }
 
+void printFile(char *filename)
+{
+
+	FILE *in = fopen(filename, "r");
+	if (!in)
+	{
+		printf("Child A: ErrTFIDF approachor in opening input file...exiting with error code -1\n");
+	}
+	printf("Maximum resources from file : \n");
+	// print content line by line
+	while (!feof(in))
+	{
+		char line[100];
+		if (fgets(line, 100, in) != NULL)
+		{
+			printf("%s", line);
+		}
+	}
+	printf("\n");
+	fclose(in);
+}
+
+
+
+
 // function that implement request command		
 void checkRequest(int eachValue[], int availRes[])
 {
