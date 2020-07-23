@@ -40,3 +40,31 @@ void checkRequest(int eachValue[], int availRes[])
 		printf("Request is not satisfied\n");
 	}
 }
+
+//Funtion that implement release command
+void checkRelease(int eachValue[], int availRes[])
+{
+	int flag = 1;
+	// Check the possibility of release command
+	for (int i = 1; i < 5; i++)
+	{
+		if (eachValue[i] > allocateRes[eachValue[0]][i - 1])
+		{
+			flag = 0;
+			break;
+		}
+	}
+	// reset allocated values after release command
+	if (flag == 1)
+	{
+		for (int i = 1; i < 5; i++)
+		{
+			allocateRes[eachValue[0]][i - 1] = allocateRes[eachValue[0]][i - 1] - eachValue[i];
+		}
+		printf("Release is satisfied\n");
+	}
+	else
+	{
+		printf("Release is not satisfied\n");
+	}
+}
