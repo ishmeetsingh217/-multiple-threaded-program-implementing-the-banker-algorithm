@@ -2,11 +2,14 @@ PROJECT TITLE
 
 Deadlock Avoidance Using Banker's Algorithm
 
-MOTIVATION
+MOTIVATION/ Description
 
 In this project, we have made a multiple threaded program that implements the banker's algorithm. A customer has the ability to request and release resoruces from the bank. The resources will be tracked by the banker and the request will be granted if the safety algorithm is satisfied. The banker has the ability to deny the request if the safe state is not satisfied. 
 
 INSTALLATION
+
+
+USAGE
 
 To rename makefile.mk to makefile, run:
 
@@ -36,7 +39,9 @@ $./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
 # For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
 #                                          RQ 0 3 1 2 1
 
-SCREENSHOTS
+SCREENSHOTS/Visuals
+
+
 
 INDIVIDUAL CONTRIBUTION 
 
@@ -58,12 +63,26 @@ Following functions are written and implemented by Kiishi:
 
 FEATURES
 
+The features of this project is to implement banker's algorithm. This method is used by banking systems to determine whether a loan can be granted or not. This program implements RQ, RL, *, Run features.
+RQ is resource request of customer.
+RL is resource release of customer.
+* is command to output status of all arraies value.
+Run is to get safe sequence and run all threads with same code.
+
 TESTS
 
 CODE EXAMPLE 
 
-AUTHORS
+Authors and acknowledgment
+- ISHMEET SINGH 
 
-CREDITS 
+Contributors
+-ISHMEET SINGH
+-KIISHI DEBAYO SANSUI 
+
 
 LICENSE
+- MIT License
+- GNU GPLv3
+
+References and other resources
