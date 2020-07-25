@@ -31,13 +31,29 @@ $./assignment04.out
 and see what happens. It should fail with an appropriate error message
 
 To run it properly use
-$./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
+$./assignment04.out [available resources array<1><2><3><4>]
 
 # For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: ./assignment04.out 10 5 7 8
 
 # where <# of src 1> <# of src 2> <# of src 3><# of src 4> is the resources that customer request 
 # For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
 #                                          RQ 0 3 1 2 1
+
+COMMAND
+
+RQ [customer_id] [Resources values array]
+    The customer request the resouces from bank 
+
+RL [customer_id] [Resources values array]
+    The customer release the resources to bank from his allocated resource
+
+Run 
+    Run the safe the sequences and out the result
+
+* 
+    Output available resources, maximum, needed, allocated resources
+
+
 
 SCREENSHOTS/Visuals
 
