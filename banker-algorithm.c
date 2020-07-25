@@ -281,6 +281,21 @@ void *threadRun() //implement this function in a suitable way
 	}
 	return 0;
 }
+int is_available(int customer_id, int need[][nRes])
+{
+	int flag = 1;
+	customer_id = 3; 
+	// check if all the available resources
+	// are less greater than need of process
+	for (int i = 0; i < nRes; i++)
+	{
+		if (need[customer_id][i] > availRes[i + 1] + allocateRes[customer_id][i])
+		{
+			flag = 0;
+		}
+	}
+	return flag;
+}
 
 // Get safe sequences
 void safe_sequence(int need[][nRes])
