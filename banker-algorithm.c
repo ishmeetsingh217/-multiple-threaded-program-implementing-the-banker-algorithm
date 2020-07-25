@@ -214,6 +214,24 @@ void outValuse()
 		printf("\n");
 	}
 }
+void runSafe(int customer_id)
+{
+	int temp[4];
+	printf("\n       Thread has started\n");
+	// print the new available array
+	for (int i = 0; i < 4; i++)
+	{
+		temp[i] = availRes[i + 1] + allocateRes[customer_id][i];
+	}
+	printf("       Thread has finished\n");
+	printf("       Thread is releasing resources\n");
+	printf("       New Available resources: ");
+	for (int i = 0; i < 4; i++)
+	{
+		printf("%d ", temp[i]);
+	}
+	printf("\n");
+}
 
 void *threadRun() //implement this function in a suitable way
 {
