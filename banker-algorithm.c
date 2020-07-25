@@ -233,6 +233,32 @@ void runSafe(int customer_id)
 	printf("\n");
 }
 
+void allThread(pthread_t tid)
+{
+	// execute the Run command
+	for (int customer_id = 0; customer_id < nCustomers; customer_id++)
+	{
+		printf("\n-->Customer/Thread %d\n", customer_id);
+		printf("       Allocated resources: ");
+		for (int i = 0; i < 4; i++)
+		{
+			printf("%d ", allocateRes[customer_id][i]);
+		}
+		printf("\n       Needed resources: ");
+		for (int i = 0; i < 4; i++)
+		{
+			printf("%d ", maxRes[customer_id][i] - allocateRes[customer_id][i]);
+		}
+		printf("\n       Available resources: ");
+		for (int i = 0; i < 4; i++)
+		{
+			printf("%d ", availRes[i + 1]);
+		}
+		pthread_create(&tid, NULL, threadRun, NULL);
+		pthread_join(tid, NULL);
+	}
+}
+
 void *threadRun() //implement this function in a suitable way
 {
 	// Run the function for each command keyword
