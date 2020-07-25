@@ -174,6 +174,46 @@ void checkRelease(int eachValue[], int availRes[])
 		printf("Release is not satisfied\n");
 	}
 }
+void outValuse()
+{
+	// out availabele array
+	printf("Available resources : ");
+	for (int i = 0; i < nRes; i++)
+	{
+		printf("%d ", availRes[i + 1]);
+	}
+	printf("\n");
+	// Out maximum array
+	printf("Maximum resources : \n");
+	for (int i = 0; i < nCustomers; i++)
+	{
+		for (int j = 0; j < nRes; j++)
+		{
+			printf("%d ", maxRes[i][j]);
+		}
+		printf("\n");
+	}
+	// Out allocate array
+	printf("Allocate resources arrays: \n");
+	for (int i = 0; i < nCustomers; i++)
+	{
+		for (int j = 0; j < nRes; j++)
+		{
+			printf("%d ", allocateRes[i][j]);
+		}
+		printf("\n");
+	}
+	// Out need array
+	printf("Need resources arrays: \n");
+	for (int i = 0; i < nCustomers; i++)
+	{
+		for (int j = 0; j < nRes; j++)
+		{
+			printf("%d ", maxRes[i][j] - allocateRes[i][j]);
+		}
+		printf("\n");
+	}
+}
 
 void *threadRun() //implement this function in a suitable way
 {
