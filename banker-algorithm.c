@@ -345,6 +345,27 @@ void safe_sequence(int need[][nRes])
 	}
 }
 
+void push(int element)
+{
+	int flag = 1;
+	if (top == 0)
+	{
+		safe[top] = element;
+	}
+	else
+	{
+		// Check exist element in the array
+		for (int k = 0; k < nCustomers; k++)
+		{
+			if (safe[k] == element)
+				flag = 0;
+		}
+		// If element dont exist in array, add
+		if (flag == 1)
+			safe[top] = element;
+	}
+	top++;
+}
 int main(int argc, char *argv[])
 {
 	char *filename = "sample4_in.txt";
