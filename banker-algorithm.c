@@ -5,9 +5,13 @@
 #include <pthread.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <stdbool.h>
 
 void checkRequest(int eachValue[], int availRes[]); //function to Check request
 void checkRelease(int eachValue[], int availRes[]); //function to Check release
+void outValuse();									//Output Current state of the arrays
+void runSafe(int customer_id);						//Rnu all threads with safe sequence
+void push(int element); //Function to push one element to array
 int safe[10], top;
 // Define static array
 int maxRes[5][4]; //Max available resources data from file
@@ -15,13 +19,9 @@ int maxRes[5][4]; //Max available resources data from file
 int allocateRes[5][4];
 int availRes[5];
 int eachValue[5];
-void outValuse();									//Output Current state of the arrays
-void runSafe(int customer_id);						//Rnu all threads with safe sequence
-int nCustomers = 0;
-
 // Define static variables
 char type[4] = {0};
-
+int nCustomers = 0;
 int nRes = 0;
 int customer_id = 0;
 
@@ -92,7 +92,7 @@ int readFile(char *fileName) //Read data from file...
 	}
 	return j;
 }
-
+//function that print file content
 void printFile(char *filename)
 {
 
@@ -114,11 +114,7 @@ void printFile(char *filename)
 	printf("\n");
 	fclose(in);
 }
-
-
-
-
-// function that implement request command		
+// function that implement request command
 void checkRequest(int eachValue[], int availRes[])
 {
 	int flag = 1;
@@ -146,7 +142,6 @@ void checkRequest(int eachValue[], int availRes[])
 		printf("Request is not satisfied\n");
 	}
 }
-
 //Funtion that implement release command
 void checkRelease(int eachValue[], int availRes[])
 {
@@ -174,6 +169,7 @@ void checkRelease(int eachValue[], int availRes[])
 		printf("Release is not satisfied\n");
 	}
 }
+// function that our valuse of serveral arraies
 void outValuse()
 {
 	// out availabele array
@@ -214,6 +210,7 @@ void outValuse()
 		printf("\n");
 	}
 }
+// Function that implements
 void runSafe(int customer_id)
 {
 	int temp[4];
@@ -232,7 +229,6 @@ void runSafe(int customer_id)
 	}
 	printf("\n");
 }
-
 void allThread(pthread_t tid)
 {
 	// execute the Run command
@@ -258,7 +254,6 @@ void allThread(pthread_t tid)
 		pthread_join(tid, NULL);
 	}
 }
-
 void *threadRun() //implement this function in a suitable way
 {
 	// Run the function for each command keyword
@@ -281,6 +276,7 @@ void *threadRun() //implement this function in a suitable way
 	}
 	return 0;
 }
+// Print all the safe-sequences
 int is_available(int customer_id, int need[][nRes])
 {
 	int flag = 1;
@@ -296,7 +292,6 @@ int is_available(int customer_id, int need[][nRes])
 	}
 	return flag;
 }
-
 // Get safe sequences
 void safe_sequence(int need[][nRes])
 {
@@ -344,7 +339,7 @@ void safe_sequence(int need[][nRes])
 		printf(">");
 	}
 }
-
+// Function that push element into array
 void push(int element)
 {
 	int flag = 1;
@@ -402,4 +397,54 @@ int main(int argc, char *argv[])
 			need[i][j] = maxRes[i][j] - allocateRes[i][j];
 		}
 	}
+	// Main part that add command
+	while (command_flag > 0)
+	{
+		com_num = 0;
+		memset(type, 0, 4);
+		printf("Enter Command : ");
+		// process each command
+		while ((com_num < nRes + 2))
+		{
+			// Get command key at first
+			scanf("%s", command);
+			// Check keyword of the command
+			if (com_num == 0)
+			{
+				strcpy(type, command);
+			}
+			if (strcmp(command, "quit") == 0)
+			{
+				command_flag = -1;
+				com_num = nRes + 2;
+			}
+			else if (strcmp(type, "*") == 0)
+			{
+				com_num = nRes + 2;
+			}
+			else if (strcmp(type, "Run") == 0)
+			{
+				safe_sequence(need);
+				printf("\nNow going to executing the threads:\n\n");
+				allThread(tid);
+				com_num = nRes + 2;
+				command_flag = -1;
+			}
+			else
+			{
+				eachValue[com_num - 1] = atoi(command);
+			}
+			com_num++;
+			// reset the command as
+			memset(command, 0, 3);
+		}
+		// Run thread in case of RQ and RL..
+		if ((strcmp(type, "Run") != 0) && (strcmp(type, "quit") != 0))
+		{
+			pthread_create(&tid, NULL, threadRun, NULL);
+			pthread_join(tid, NULL);
+			// pthread_exit(NULL);
+		}
+	}
+	return 0;
 }
