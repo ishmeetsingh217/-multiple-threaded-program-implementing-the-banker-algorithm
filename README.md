@@ -1,52 +1,50 @@
-PROJECT TITLE
+# PROJECT TITLE
 
 Deadlock Avoidance Using Banker's Algorithm
 
-MOTIVATION/ Description
+# MOTIVATION/ Description
 
-In this project, we have made a multiple threaded program that implements the banker's algorithm. A customer has the ability to request and release resoruces from the bank. The resources will be tracked by the banker and the request will be granted if the safety algorithm is satisfied. The banker has the ability to deny the request if the safe state is not satisfied. 
+> In this project, we have made a multiple threaded program that implements the banker's algorithm. A customer has the ability to request and release resoruces from the bank. The resources will be tracked by the banker and the request will be granted if the safety algorithm is satisfied. The banker has the ability to deny the request if the safe state is not satisfied. 
 
-INSTALLATION / USAGE
+# INSTALLATION / USAGE
 
 To rename makefile.mk to makefile, run:
 
-$mv makefile.mk Makefile
+### $mv makefile.mk Makefile
 
 Makefile is in the same folder as your .c file to compile run
 
-$make
+### $make
 
 This will compile your program with warnings turned into errors. If you instead run
 
-$make warnings_OK
+### $make warnings_OK
 
 This will compile your program with warnings enabled but not fatal. If successful (ie gcc didn't complain) you should now have a file name Assignment04.out
 
 Try running
-$./assignment04.out
+### $./assignment04.out
 
 and see what happens. It should fail with an appropriate error message
 
 To run it properly use
-$./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
+### $./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
 
-For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: ./assignment04.out 10 5 7 8
+ For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: **./assignment04.out 10 5 7 8**
+where **<# of src 1> <# of src 2> <# of src 3><# of src 4>** is the resources that customer request 
+ For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
+                                         **RQ 0 3 1 2 1**
 
-where <# of src 1> <# of src 2> <# of src 3><# of src 4> is the resources that customer request 
-For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
-                                         RQ 0 3 1 2 1
+# SCREENSHOTS/OUTPUT
+<table>
+  <tr>
+    <td><img src="https://i.imgur.com/ngljUWq.png" height = "430" width="430"></td>
+    <td><img src="https://i.imgur.com/NISI2RF.png" height = "430" width="430"></td>
+    <td><img src="https://i.imgur.com/l6BYGz6.png" height = "430" width="430"></td>
+  </tr>
+</table>
 
-SCREENSHOTS/Visuals
-
-<img src="https://i.imgur.com/ngljUWq.png"  width="450" height="350">
-<img src="https://i.imgur.com/NISI2RF.png"  width="450" height="350">
-<img src="https://i.imgur.com/l6BYGz6.png"  width="450" height="350">
-
-
-
-
-
-INDIVIDUAL CONTRIBUTION 
+# INDIVIDUAL CONTRIBUTION 
 
 Following functions are written and implemented by Ishmeet:
 1) int readFile(char *fileName)
@@ -64,33 +62,34 @@ Following functions are written and implemented by Kiishi:
 5) int is_available(int customer_id, int need[][nRes])
 6) void push(int element)
 
-FEATURES
+# FEATURES
 
 The features of this project is to implement banker's algorithm. This method is used by banking systems to determine whether a loan can be granted or not. This program implements RQ, RL,Asterisk symbol(*), Run features.
-RQ is resource request of customer.
-RL is resource release of customer.
-Asterisk symbol(*) is command to output status of all arrays value.
-Run is to get safe sequence and run all threads with same code.
+#### RQ is resource request of customer.
+#### RL is resource release of customer.
+#### Asterisk symbol(*) is command to output status of all arrays value.
+#### Run is to get safe sequence and run all threads with same code.
 
-TESTS
+# CODE EXAMPLE 
+<table>
+  <tr>
+    <td><img src="https://imgur.com/N3hEHPD.png" height = "430" width="500"></td>
+    <td><img src="https://imgur.com/yGUZZpg.png" height = "430" width="500"></td>
+    <td><img src="https://imgur.com/MgovzVD.png" height = "430" width="500"></td>
+  </tr>
+</table>
 
-CODE EXAMPLE 
 
-<img src="https://imgur.com/N3hEHPD.png"  width="450" height="350">
-<img src="https://imgur.com/yGUZZpg.png"  width="450" height="350">
-<img src="https://imgur.com/MgovzVD.png"  width="450" height="350">
-
-
-Authors and acknowledgment
+# Authors and Acknowledgment
 - ISHMEET SINGH 
 
-Contributors
--ISHMEET SINGH
--KIISHI 
+# Contributors
+ - ISHMEET SINGH 
+ - KIISHI 
 
 
-LICENSE
+# LICENSE
 - MIT License
 - GNU GPLv3
 
-References and other resources
+
