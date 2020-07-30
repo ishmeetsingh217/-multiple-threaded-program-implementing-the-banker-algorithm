@@ -40,7 +40,18 @@ where **<# of src 1> <# of src 2> <# of src 3><# of src 4>** is the resources th
   <tr>
     <td><img src="https://i.imgur.com/ngljUWq.png" height = "430" width="430"></td>
     <td><img src="https://i.imgur.com/NISI2RF.png" height = "430" width="430"></td>
-    <td><img src="https://i.imgur.com/l6BYGz6.png" height = "430" width="430"></td>
+  </tr>
+ <tr>
+    <td><img src="https://i.imgur.com/NISI2RF.png" height = "430" width="430"></td>
+    <td><img src="https://imgur.com/sf5CdUb.png" height = "430" width="430"></td>
+  </tr>
+ <tr>
+    <td><img src="https://imgur.com/mzvi2wP.png" height = "430" width="430"></td>
+    <td><img src="https://imgur.com/t03pMPi.png" height = "430" width="430"></td>
+  </tr>
+ <tr>
+    <td><img src="https://imgur.com/gjkQYxj.png" height = "430" width="430"></td>
+    <td><img src="https://imgur.com/wBU925P.png" height = "430" width="430"></td>
   </tr>
 </table>
 
