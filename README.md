@@ -100,7 +100,7 @@ The features of this project is to implement banker's algorithm. This method is 
 
 
 # LICENSE
-- MIT License
+- BSD 2-Clause License
 - GNU GPLv3
 
 
