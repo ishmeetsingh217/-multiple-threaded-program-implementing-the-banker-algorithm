@@ -11,13 +11,14 @@ void checkRequest(int eachValue[], int availRes[]); //function to Check request
 void checkRelease(int eachValue[], int availRes[]); //function to Check release
 void outValuse();									//Output Current state of the arrays
 void runSafe(int customer_id);						//Rnu all threads with safe sequence
-void push(int element); //Function to push one element to array
-int safe[10], top;
+void push(int element);								//Function to push one element to array
+int safe[5], top;
 // Define static array
-int maxRes[5][4]; //Max available resources data from file
-// int allocateRes[5][4]={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,2,3,1}}; //Allocated resources in each Customers
-int allocateRes[5][4];
+int maxRes[5][4];																				//Max available resources data from file
+int allocateRes[5][4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {1, 2, 3, 1}}; //Allocated resources in each Customers
+// int allocateRes[5][4];
 int availRes[5];
+int old_availRes[5];
 int eachValue[5];
 // Define static variables
 char type[4] = {0};
@@ -25,10 +26,10 @@ int nCustomers = 0;
 int nRes = 0;
 int customer_id = 0;
 
-void *threadRun();				//the thread function, the code executed by each thread
-int readFile(char *fileName);	//function to read the file content and build array of threads
-void printFile(char *filename); //function to print of file content
-void allThread();				//Run all thread with safe state
+void *threadRun();							//the thread function, the code executed by each thread
+int readFile(char *fileName);				//function to read the file content and build array of threads
+void printFile(char *filename);				//function to print of file content
+void allThread(pthread_t tid, int *orders); //Run all thread with safe state
 
 int readFile(char *fileName) //Read data from file...
 {
@@ -121,7 +122,7 @@ void checkRequest(int eachValue[], int availRes[])
 	// check possibility RQ command
 	for (int i = 1; i < 5; i++)
 	{
-		if ((maxRes[eachValue[0]][i - 1] < eachValue[i]) && (eachValue[i] * 2 > availRes[i]))
+		if ((maxRes[eachValue[0]][i - 1] < eachValue[i]) || (eachValue[i] * 2 > availRes[i]))
 		{
 			flag = 0;
 			break;
@@ -133,7 +134,7 @@ void checkRequest(int eachValue[], int availRes[])
 		for (int i = 1; i < 5; i++)
 		{
 			availRes[i] = availRes[i] - eachValue[i];
-			allocateRes[eachValue[0]][i - 1] = eachValue[i];
+			allocateRes[eachValue[0]][i - 1] = allocateRes[eachValue[0]][i - 1] + eachValue[i];
 		}
 		printf("Request is satisfied\n");
 	}
@@ -161,6 +162,7 @@ void checkRelease(int eachValue[], int availRes[])
 		for (int i = 1; i < 5; i++)
 		{
 			allocateRes[eachValue[0]][i - 1] = allocateRes[eachValue[0]][i - 1] - eachValue[i];
+			availRes[i] = availRes[i] + eachValue[i];
 		}
 		printf("Release is satisfied\n");
 	}
@@ -218,7 +220,8 @@ void runSafe(int customer_id)
 	// print the new available array
 	for (int i = 0; i < 4; i++)
 	{
-		temp[i] = availRes[i + 1] + allocateRes[customer_id][i];
+		temp[i] = old_availRes[i + 1] + allocateRes[customer_id][i]; 
+		old_availRes[i + 1] = old_availRes[i + 1] + allocateRes[customer_id][i]; 
 	}
 	printf("       Thread has finished\n");
 	printf("       Thread is releasing resources\n");
@@ -229,26 +232,27 @@ void runSafe(int customer_id)
 	}
 	printf("\n");
 }
-void allThread(pthread_t tid)
+void allThread(pthread_t tid, int *orders)
 {
 	// execute the Run command
 	for (int customer_id = 0; customer_id < nCustomers; customer_id++)
 	{
-		printf("\n-->Customer/Thread %d\n", customer_id);
+		printf("\n-->Customer/Thread %d\n", orders[customer_id]);
+		int custom = orders[customer_id];
 		printf("       Allocated resources: ");
 		for (int i = 0; i < 4; i++)
 		{
-			printf("%d ", allocateRes[customer_id][i]);
+			printf("%d ", allocateRes[custom][i]);
 		}
 		printf("\n       Needed resources: ");
 		for (int i = 0; i < 4; i++)
 		{
-			printf("%d ", maxRes[customer_id][i] - allocateRes[customer_id][i]);
+			printf("%d ", maxRes[custom][i] - allocateRes[custom][i]);
 		}
 		printf("\n       Available resources: ");
 		for (int i = 0; i < 4; i++)
 		{
-			printf("%d ", availRes[i + 1]);
+			printf("%d ", old_availRes[i + 1]);
 		}
 		pthread_create(&tid, NULL, threadRun, NULL);
 		pthread_join(tid, NULL);
@@ -280,11 +284,11 @@ void *threadRun() //implement this function in a suitable way
 int is_available(int customer_id, int need[][nRes])
 {
 	int flag = 1;
-	customer_id = 3; 
 	// check if all the available resources
 	// are less greater than need of process
 	for (int i = 0; i < nRes; i++)
 	{
+		// printf("available =%d, %d\n", need[customer_id][i], availRes[i + 1] + allocateRes[customer_id][i]);
 		if (need[customer_id][i] > availRes[i + 1] + allocateRes[customer_id][i])
 		{
 			flag = 0;
@@ -293,43 +297,58 @@ int is_available(int customer_id, int need[][nRes])
 	return flag;
 }
 // Get safe sequences
-void safe_sequence(int need[][nRes])
+void safe_sequence(pthread_t tid, int need[][nRes])
 {
-	int safe_flag = 0;
-	int i = 0,temp=0;
-	while (safe_flag < nCustomers)
+	for(int m = 0; m < 5; m++) {
+      old_availRes[m] = availRes[m];
+   	}
+	int temp = 0, flag = 0;
+	int zero_flag = 0;
+	memset(safe, 0, nCustomers);
+
+	while (nCustomers > flag)
 	{
-		int continue_flag = 0;
-		// Check continue with existed elements
-		for (int k = 0; k < nCustomers; k++)
+		temp = 0;
+		if ((is_available(0, need) == 1) && (zero_flag == 0))
 		{
-			if ((safe[k] == i)&&(safe[k] > 0))
+			push(0);
+			flag = flag + 1;
+			zero_flag = 1;
+		}
+		else
+		{
+			temp = temp + 1;
+		}
+
+		for (int safe_flag = 1; safe_flag < nCustomers; safe_flag++)
+		{
+			int continue_flag = 0;
+			// Check continue with existed elements
+			for (int k = 0; k < nCustomers; k++)
 			{
-				continue_flag = 1;
+				if ((safe[k] == safe_flag))
+				{
+					continue_flag = 1;
+					break;
+				}
+			}
+			// If i is available, push i to safe array
+			if (continue_flag != 1)
+			{
+				if (is_available(safe_flag, need) == 1)
+				{
+					push(safe_flag);
+					flag = flag + 1;
+				}
+				else
+				{
+					temp = temp + 1;
+				}
 			}
 		}
-		// If i is available, push i to safe array
-		if (continue_flag != 1)
-		{
-			if (is_available(i, need) == 1)
-			{
-				push(i);
-				safe_flag = safe_flag + 1;
-			}
-			else
-			{
-				temp = i;
-			}
-			i++;
-			if (i == nCustomers)
-			{
-				i = temp;
-			}
-		}
-		
 	}
 	// if a safe-sequence is found, display it
-	if ((safe[nCustomers] != 1) || (safe[nCustomers] != -1))
+	if (flag >= nCustomers)
 	{
 		printf("Safe sequence is : <");
 		for (int i = 0; i < nCustomers; i++)
@@ -337,6 +356,12 @@ void safe_sequence(int need[][nRes])
 			printf(" %d ", safe[i]);
 		}
 		printf(">");
+		printf("\nNow going to executing the threads:\n\n");
+		allThread(tid, safe);
+	}
+	else
+	{
+		printf("Dont have Safe\n");
 	}
 }
 // Function that push element into array
@@ -360,9 +385,15 @@ void push(int element)
 			safe[top] = element;
 	}
 	top++;
+	for (int i = 0; i < nRes; i++)
+	{
+		availRes[i + 1] = availRes[i + 1] + allocateRes[element][i];
+		// allocateRes[element][i] = 0;
+	}
 }
 int main(int argc, char *argv[])
 {
+	pthread_t tid;
 	char *filename = "sample4_in.txt";
 	nRes = readFile(filename);
 	printf("Number of Customers : %d\n", nCustomers);
@@ -388,7 +419,6 @@ int main(int argc, char *argv[])
 	int com_num = 0;
 	char command[3] = {0};
 	int command_flag = 1;
-	pthread_t tid;
 	int need[nCustomers][nRes];
 	for (int i = 0; i < nCustomers; i++)
 	{
@@ -424,9 +454,7 @@ int main(int argc, char *argv[])
 			}
 			else if (strcmp(type, "Run") == 0)
 			{
-				safe_sequence(need);
-				printf("\nNow going to executing the threads:\n\n");
-				allThread(tid);
+				safe_sequence(tid, need);
 				com_num = nRes + 2;
 				command_flag = -1;
 			}
@@ -438,8 +466,8 @@ int main(int argc, char *argv[])
 			// reset the command as
 			memset(command, 0, 3);
 		}
-		// Run thread in case of RQ and RL..
-		if ((strcmp(type, "Run") != 0) && (strcmp(type, "quit") != 0))
+		// Run thread in case of RQ and RL..(strcmp(type, "Run") != 0) &&
+		if ((strcmp(type, "quit") != 0))
 		{
 			pthread_create(&tid, NULL, threadRun, NULL);
 			pthread_join(tid, NULL);
