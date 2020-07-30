@@ -6,10 +6,7 @@ MOTIVATION/ Description
 
 In this project, we have made a multiple threaded program that implements the banker's algorithm. A customer has the ability to request and release resoruces from the bank. The resources will be tracked by the banker and the request will be granted if the safety algorithm is satisfied. The banker has the ability to deny the request if the safe state is not satisfied. 
 
-INSTALLATION
-
-
-USAGE
+INSTALLATION / USAGE
 
 To rename makefile.mk to makefile, run:
 
@@ -33,13 +30,19 @@ and see what happens. It should fail with an appropriate error message
 To run it properly use
 $./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
 
-# For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: ./assignment04.out 10 5 7 8
+For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: ./assignment04.out 10 5 7 8
 
-# where <# of src 1> <# of src 2> <# of src 3><# of src 4> is the resources that customer request 
-# For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
-#                                          RQ 0 3 1 2 1
+where <# of src 1> <# of src 2> <# of src 3><# of src 4> is the resources that customer request 
+For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
+                                         RQ 0 3 1 2 1
 
 SCREENSHOTS/Visuals
+
+<img src="https://i.imgur.com/ngljUWq.png"  width="450" height="350">
+<img src="https://i.imgur.com/NISI2RF.png"  width="450" height="350">
+<img src="https://i.imgur.com/l6BYGz6.png"  width="450" height="350">
+
+
 
 
 
@@ -63,15 +66,20 @@ Following functions are written and implemented by Kiishi:
 
 FEATURES
 
-The features of this project is to implement banker's algorithm. This method is used by banking systems to determine whether a loan can be granted or not. This program implements RQ, RL, *, Run features.
+The features of this project is to implement banker's algorithm. This method is used by banking systems to determine whether a loan can be granted or not. This program implements RQ, RL,Asterisk symbol(*), Run features.
 RQ is resource request of customer.
 RL is resource release of customer.
-* is command to output status of all arrays value.
+Asterisk symbol(*) is command to output status of all arrays value.
 Run is to get safe sequence and run all threads with same code.
 
 TESTS
 
 CODE EXAMPLE 
+
+<img src="https://imgur.com/N3hEHPD.png"  width="450" height="350">
+<img src="https://imgur.com/yGUZZpg.png"  width="450" height="350">
+<img src="https://imgur.com/MgovzVD.png"  width="450" height="350">
+
 
 Authors and acknowledgment
 - ISHMEET SINGH 
