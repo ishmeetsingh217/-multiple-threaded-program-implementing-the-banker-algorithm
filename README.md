@@ -30,7 +30,7 @@ and see what happens. It should fail with an appropriate error message
 To run it properly use
 ### $./assignment04.out <# of src 1> <# of src 2> <# of src 3><# of src 4>
 
- For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: **./assignment04.out 10 5 7 8**
+> For example, if there were four resource types, with ten instances of the first type, five of the second type, seven of the third type, and eight of the fourth type, you would invoke your program as follows: **./assignment04.out 10 5 7 8**
 where **<# of src 1> <# of src 2> <# of src 3><# of src 4>** is the resources that customer request 
  For example, if customer/thread0 were to request the resources (3, 1, 2, 1), the following command would be entered:
                                          **RQ 0 3 1 2 1**
